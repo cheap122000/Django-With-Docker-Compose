@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_DB=TestDB
+      - POSTGRES_USER=testacc
+      - POSTGRES_PASSWORD=testacc!@#$
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./PGData:/var/lib/postgresql/data
+
+  web-app:
+    image: web-app:latest
+    container_name: web-app
+    build: 
+      context: ./Mysite
+      dockerfile: ./Dockerfile-dev
+    restart: always
+    entrypoint: /app/docker-entrypoint-product.sh
+    command: uwsgi --ini uwsgi.ini
+
+    # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=14m4dm1n!@#$
+      - DJANGO_SUPERUSER_EMAIL=example@gmail.com
+      - POSTGRES_DB=TestDB
+      - POSTGRES_USER=testacc
+      - POSTGRES_PASSWORD=testacc!@#$
+      - mode=product
+    volumes:
+      - ./Mysite:/app
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx-container
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Mysite:/app
+      - ./Mysite/media:/app/media
+      - ./log:/var/log/nginx
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    depends_on:
+      - web-app
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw

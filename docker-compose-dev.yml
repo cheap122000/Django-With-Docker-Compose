@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_DB=TestDB
+      - POSTGRES_USER=testacc
+      - POSTGRES_PASSWORD=testacc!@#$
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./PGData:/var/lib/postgresql/data
+
+  web-app:
+    image: web-app:latest
+    container_name: web-app
+    build: 
+      context: ./Mysite
+      dockerfile: ./Dockerfile-dev
+    restart: always
+    command: bash docker-entrypoint-dev.sh
+
+    # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=14m4dm1n!@#$
+      - DJANGO_SUPERUSER_EMAIL=example@gmail.com
+      - POSTGRES_DB=TestDB
+      - POSTGRES_USER=testacc
+      - POSTGRES_PASSWORD=testacc!@#$
+      - mode=dev
+    ports:
+     - "8888:8000"
+    volumes:
+      - ./Mysite:/app
+    depends_on:
+      - db
