@@ -92,7 +92,7 @@ if mode == "dev":
             'NAME': os.getenv("POSTGRES_DB"),
             'USER': os.getenv("POSTGRES_USER"),
             'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-            'HOST': 'db',
+            'HOST': os.getenv("POSTGRES_HOST"),
             'PORT': 5432,
         }
     }
@@ -103,7 +103,7 @@ elif mode == "product":
             'NAME': os.getenv("POSTGRES_DB"),
             'USER': os.getenv("POSTGRES_USER"),
             'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-            'HOST': 'db',
+            'HOST': os.getenv("POSTGRES_HOST"),
             'PORT': 5432,
         }
     }
