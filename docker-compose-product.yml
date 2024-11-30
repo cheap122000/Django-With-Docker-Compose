@@ -6,9 +6,9 @@ services:
     image: postgres:16
     restart: always
     environment:
-      - POSTGRES_DB=TestDB
-      - POSTGRES_USER=testacc
-      - POSTGRES_PASSWORD=testacc!@#$
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -26,13 +26,13 @@ services:
 
     # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
     environment:
-      - DJANGO_SUPERUSER_USERNAME=admin
-      - DJANGO_SUPERUSER_PASSWORD=14m4dm1n!@#$
-      - DJANGO_SUPERUSER_EMAIL=example@gmail.com
-      - POSTGRES_DB=TestDB
-      - POSTGRES_USER=testacc
-      - POSTGRES_PASSWORD=testacc!@#$
-      - mode=product
+      - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - mode=${mode}
     volumes:
       - ./Mysite:/app
     depends_on:
@@ -50,6 +50,7 @@ services:
       - ./Mysite/media:/app/media
       - ./log:/var/log/nginx
       - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - ./certbot/www/.well-known/acme-challenge/:/var/www/dehydrated/
     depends_on:
       - web-app
 
