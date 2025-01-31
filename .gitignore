@@ -115,3 +115,5 @@ PGData/
 __pycache__/*
 *.log
 *app.sock
+Mysite/Mysite*
+Mysite/manage.py
