@@ -11,9 +11,10 @@ services:
       - "5432:5432"
     volumes:
       - ./PGData:/var/lib/postgresql/data
+    networks:
+      - my_network
 
   web-app:
-    image: web-app:latest
     container_name: web-app
     build: 
       context: ./Mysite
@@ -36,3 +37,8 @@ services:
       - ./Mysite:/app
     depends_on:
       - db
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge

@@ -11,9 +11,10 @@ services:
       - "5432:5432"
     volumes:
       - ./PGData:/var/lib/postgresql/data
+    networks:
+      - my_network
 
   web-app:
-    image: web-app:latest
     container_name: web-app
     build: 
       context: ./Mysite
@@ -35,6 +36,8 @@ services:
       - ./Mysite:/app
     depends_on:
       - db
+    networks:
+      - my_network
 
   nginx:
     container_name: nginx-container
@@ -51,9 +54,15 @@ services:
       - ./certbot/www/.well-known/acme-challenge/:/var/www/dehydrated/
     depends_on:
       - web-app
+    networks:
+      - my_network
 
   certbot:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  my_network:
+    driver: bridge

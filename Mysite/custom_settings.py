@@ -17,11 +17,12 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 mode = os.getenv("mode")
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5o&h_#&#e2681(^_c(-t-vyywn1rw!ch(or5j#$f^)8i&59n8_'
+SECRET_KEY = 'django-insecure-vm1x#haz9i9i)ka&x7m$tp1b41%umcg_yxm(efg@qg%a-z++!5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'Mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,6 +109,7 @@ elif mode == "product":
         }
     }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -138,8 +140,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = '<your_login_url>'
-LOGIN_REDIRECT_URL = '<your_login_redirect_url>'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

@@ -1,11 +1,19 @@
-FROM python:3.9
+FROM python:3.10
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
 WORKDIR /app
-
 COPY . /app
 
 RUN python -m pip install --upgrade pip
 RUN pip install -r requirements_docker.txt
 
+ENTRYPOINT ["sh", "/app/docker-entrypoint-dev.sh"]
 RUN chmod +x docker-entrypoint-dev.sh
