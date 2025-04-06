@@ -18,7 +18,7 @@ services:
     container_name: web-app
     build: 
       context: ./Mysite
-      dockerfile: ./Dockerfile-dev
+      dockerfile: ./Dockerfile-product
     restart: always
     entrypoint: /app/docker-entrypoint-product.sh
     command: uwsgi --ini uwsgi.ini
